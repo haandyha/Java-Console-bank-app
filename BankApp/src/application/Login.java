@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
@@ -11,15 +12,29 @@ public class Login {
 	public Login() {
 		super();
 	}
+
+	public static void displayAccounts(String userName){
+		ArrayList<String> accounts = FileRead.getAccountsAsUser(userName);
+
+		for(int i=0; i< accounts.size(); i++){
+			System.out.println(accounts.get(i) );
+		}
+	}
 	
 	public static void UserAccount(String userName) {
 		System.out.println("\nSuccessfully logged in.");
 		double amount = 0;
 		String option="",confirm;
+
 		while(!option.equals("l")) {
 			System.out.println("Welcome "+userName);
+			System.out.println("ACCOUNTS");
+			System.out.println("--------------");
+
+			displayAccounts(userName);
+
 			String balance = FileEdit.readBalance(userName);
-			System.out.println("Current balance: $"+balance);
+//			System.out.println("Current balance: $"+balance);
 			
 			System.out.println("\nPlease select an option:");
 			System.out.println("(d) Deposit.");
