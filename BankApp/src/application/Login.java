@@ -2,8 +2,11 @@ package application;
 
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 public class Login {
 	static Scanner scan = new Scanner(System.in);
+	private static final Logger log = Logger.getLogger("");
 	
 	public Login() {
 		super();
@@ -33,9 +36,10 @@ public class Login {
 				confirm = scan.nextLine();
 				if(confirm.equals("y")) {
 					boolean adjust = FileEdit.adjustBalance(userName, amount, 'd');
-					if(adjust)
+					if(adjust) {
 						System.out.println(amount+" Successfully deposited.");
-					
+						log.info(userName + " deposited $" + amount);
+					}
 					else
 						System.out.println("error.");
 				}
@@ -54,9 +58,10 @@ public class Login {
 					}
 					else {
 						boolean adjust = FileEdit.adjustBalance(userName, amount, 'w');
-						if(adjust)
+						if(adjust) {
 							System.out.println(amount+" Successfully withdrawn.");
-						
+							log.info(userName + " withdrew $" + amount);
+						}
 						else
 							System.out.println("error.");
 					}
@@ -65,6 +70,7 @@ public class Login {
 				
 			case "l":
 				System.out.println("\nSuccessfully logged out.\n");
+				log.info(userName + " logged out.");
 				break;
 			default:
 				System.out.println("Invalid selection.");
