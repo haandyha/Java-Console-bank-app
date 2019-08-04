@@ -1,1 +1,7 @@
-nick qwer
+Active Directory for all bank users including Customers, Employees & Administrators
+-------------------
+USERNAME : PASSWORD : ROLE
+--------------------
+hguardad : lmao : ADMIN
+Andyha : 123 : EMPLOYEE
+Oyshi12: 456 : EMPLOYEE

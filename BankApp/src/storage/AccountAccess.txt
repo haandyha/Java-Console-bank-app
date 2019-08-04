@@ -1,0 +1,4 @@
+Directory for verifying account access for joint accounts
+-------------------
+ACCOUNT# : STATUS : user1 , user2 , etc
+--------------------

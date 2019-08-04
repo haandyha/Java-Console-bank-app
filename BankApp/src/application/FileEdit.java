@@ -10,6 +10,7 @@ import java.io.IOException;
 public class FileEdit {
 	static String userFilePath = "src/storage/Users.txt";
 	static String accBalFilePath = "src/storage/AccountBalance.txt";
+	static String acctAccessPath = "src/storage/AccountAccess.txt";
 	
 	//overwrite user's new balance
 	public static boolean adjustBalance(String userName, double amount, char operation) {
@@ -68,7 +69,7 @@ public class FileEdit {
 			
 			String line = br.readLine();
 			while(line != null) {
-				if(line.contentEquals(userName+" "+password)) {
+				if(line.contains(userName+" : "+password)) {
 					return true;
 				}
 				line = br.readLine();
@@ -104,16 +105,27 @@ public class FileEdit {
 	}
 	
 	//write user to users file and create balance of $0 in AccountBalance file
-	public static void saveUser(String userName, String password) {
-		try(BufferedWriter usersWrite = new BufferedWriter(new FileWriter(userFilePath));
-				BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath))){
+	public static void saveUser(String userName, String password, String role) {
+		try(
+				BufferedWriter usersWrite = new BufferedWriter(new FileWriter(userFilePath, true));
+				BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath,true));
+				BufferedWriter acctAccessWrite = new BufferedWriter(new FileWriter(acctAccessPath,true));
+			){
 			
 			if(doesUserExist(userName))
 				System.out.println("\nUser already exists\n");
 			
 			else {
-				usersWrite.append(userName).append(" "+password);
-				accWrite.append(userName).append(" 0");
+				/*
+				Set new account with hashed acct# 0 balance & status pending
+
+				 */
+				int acctNum = userName.hashCode();
+				if(acctNum<0)acctNum = acctNum*-1;
+
+				usersWrite.append("\n" + userName + " : " + password + " : " + role);
+				accWrite.append("\n" + acctNum + " : 0");
+				acctAccessWrite.append("\n" + acctNum + " : PENDING : " + userName);
 				System.out.println("\nUser successfuly saved.\n");
 			}
 			

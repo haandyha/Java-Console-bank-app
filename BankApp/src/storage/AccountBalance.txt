@@ -1,1 +1,4 @@
-nick 7.0
+Collection of all Customer data to be reviewed by Employees & Administrators
+---------------------------
+Acct# : BALANCE
+---------------------------
