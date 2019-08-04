@@ -16,12 +16,16 @@ public class FileRead {
 
     public static String getBalance(String acctNumber){
         String output = "error";
-        try(BufferedReader br = new BufferedReader(new FileReader(acctAccessPath) ) ){
+        try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath) ) ){
             String line = br.readLine();
+
             while(line != null){
                 if (line.contains(acctNumber)) {
-                    return line;
+                    String[] temp = line.split(":");
+                    output = temp[0] + " : $" + temp[1];
+                    return output;
                 }
+                line = br.readLine();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

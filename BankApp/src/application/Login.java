@@ -26,12 +26,11 @@ public class Login {
 		double amount = 0;
 		String option="",confirm;
 
-		//Verify that the user has an account that is currently not 'PENDING'
-
 		while(!option.equals("l")) {
 			System.out.println("Welcome "+userName);
 			System.out.println("ACCOUNTS");
 			System.out.println("--------------");
+
 			displayAccounts(userName);
 
 			String balance = FileEdit.readBalance(userName);
