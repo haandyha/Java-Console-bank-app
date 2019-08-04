@@ -2,12 +2,16 @@ package application;
 
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 public class UserMenu {
 
 	static Scanner scan = new Scanner(System.in);
+	private static final Logger log = Logger.getLogger("");
 	
 	public static void main(String[] args) {
 		System.out.println("Welcome.");
+		//log.debug("log test");
 		String option = "";
 		//display menu until user selects to exit
 		while(!option.equals("e")) {
@@ -38,6 +42,7 @@ public class UserMenu {
 					User.setUserName(userName);
 					User.setPassword(password1);
 					User.store();
+					log.info(userName + " created an account.");
 				break;
 				
 			case "l":
@@ -50,13 +55,18 @@ public class UserMenu {
 					password1 = scan.nextLine();
 					//ensure correct password is associated with each user
 					if(FileEdit.confirmLogin(userName, password1)) {
+						log.info(userName + " logged in.");
 						Login.UserAccount(userName);
 					}
-					else
+					else {
 						System.out.println("\nIncorrect password.");
+						log.info("Failed login attempt.");
+					}
 				}
-				else
+				else {
 					System.out.println("\nUser does not exist.");
+					log.info("Invalid user name entered.");
+				}
 				break;
 				
 			case "e":

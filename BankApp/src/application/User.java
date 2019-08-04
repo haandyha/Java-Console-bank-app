@@ -3,6 +3,7 @@ package application;
 public class User {
 	private static String userName;
 	private static String password;
+	private static String role;
 	
 	public User() {
 		super();
@@ -14,6 +15,15 @@ public class User {
 	public static void setUserName(String userName) {
 		User.userName = userName;
 	}
+	
+	public static String getRole() {
+		return role;
+	}
+
+	public static void setRole(String role) {
+		User.role = role;
+	}
+
 	public static String getPassword() {
 		return password;
 	}
@@ -22,7 +32,7 @@ public class User {
 	}
 
 	public static void store() {
-		FileEdit.saveUser(userName, password);
+		FileEdit.saveUser(userName, password, role);
 	}
 	
 }
