@@ -41,6 +41,7 @@ public class UserMenu {
 				
 					User.setUserName(userName);
 					User.setPassword(password1);
+					User.setRole("CUSTOMER");
 					User.store();
 					log.info(userName + " created an account.");
 				break;
