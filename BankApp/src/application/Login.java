@@ -39,6 +39,7 @@ public class Login {
 			System.out.println("(j) Apply for Joint account.");
 			System.out.println("(d) Deposit.");
 			System.out.println("(w) Withdraw.");
+			System.out.println("(t) Transfer between accounts");
 			System.out.println("(l) Log out.");
 			option = scan.nextLine().toLowerCase();
 			switch (option) {
@@ -61,10 +62,8 @@ public class Login {
 				}else{
 					System.out.println("You have already applied to this account or the number provided was invalid");
 				}
-
 				break;
 			case "d":
-				System.out.println("\nDeposit option selected.");
 				System.out.println("Enter the account you'd like to deposit to.");
 				String accountTo = scan.nextLine();
 
@@ -81,7 +80,6 @@ public class Login {
 				break;
 
 			case "w":
-				System.out.println("\nWithdraw option selected.");
 				System.out.println("Enter the account you'd like to withdraw from.");
 				String accountFrom = scan.nextLine();
 
@@ -97,6 +95,24 @@ public class Login {
 				}
 				break;
 
+			case "t":
+				System.out.println("Enter the account you'd like to withdraw from.");
+				String transferFrom = scan.nextLine();
+				System.out.println("Enter the account you'd like to deposit to.");
+				String transferTo = scan.nextLine();
+
+				System.out.println("\nEnter the transfer amount: ");
+				String transferAmount = scan.nextLine();
+
+				if(FileEdit.transferFunds(transferFrom, transferTo, transferAmount, userName) ){
+					//success
+					System.out.println("Transfer successful!");
+				} else {
+					//failure
+					System.out.println("Please double check you've entered valid information");
+				}
+
+				break;
 			case "l":
 				System.out.println("\nSuccessfully logged out.\n");
 				log.info(userName + " logged out.");

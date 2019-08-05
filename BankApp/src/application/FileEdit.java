@@ -116,16 +116,26 @@ public class FileEdit {
 		}catch (Exception e){
 			return false;
 		}
-
 		return false;
 	}
-	
-	
+
+	/*
+		If both steps of the transfer are not successful the transfer will reverse the initial withdrawal
+	 */
 	public static boolean transferFunds(String acctFrom, String accountTo, String amount, String userName) {
-		//Validate both accounts
-		//Validate amount is a double
-		//Validate userName has access to perform this operation on both accounts
-		
+		// Verify withdrawal is successful
+		if(withdrawal(acctFrom, amount, userName) ){
+			// Verify deposit is successful
+			if(deposit(accountTo, amount, userName) ){
+				return true;
+			}
+			// If deposit fails then funds must be sent back to withdrawal account
+			else {
+				deposit(acctFrom,amount,userName);
+				return false;
+			}
+
+		}
 		return false;
 	}
 	
@@ -232,12 +242,10 @@ public class FileEdit {
 		try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath))){
 			// Verify account string is actually an int
 			int acc = Integer.parseInt(account);
-			System.out.println("parsed account num to int");
 
 			String line = br.readLine();
 			while(line != null) {
 				if(line.contains(account) ) {
-					System.out.println("Found account");
 					return true;
 				}
 				line = br.readLine();
