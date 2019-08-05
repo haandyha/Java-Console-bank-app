@@ -190,5 +190,66 @@ public class FileEdit {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public static boolean changeAccountStatus(String accountNum, char operation) {
+		if(operation == 'a') {
+			try(BufferedReader br = new BufferedReader(new FileReader(acctAccessPath))){
+				
+				String oldContent = "";
+				String oldLine = "";
+				String newLine = "";
+				String line = br.readLine();
+				while(line != null) {
+					oldContent = oldContent + line + System.lineSeparator();
+					if(line.contains(accountNum)) {
+						oldLine = line;
+						String strArr[] = line.split(":");
+						String userName = strArr[2];
+						newLine = accountNum + " : APPROVED : " + userName;
+					}
+					line = br.readLine();
+				}
+				String newContent = oldContent.replaceAll(oldLine, newLine);
+				BufferedWriter accWrite = new BufferedWriter(new FileWriter(acctAccessPath));
+				accWrite.write(newContent);
+				accWrite.close();
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
+		else if(operation == 'd') {
+			try(BufferedReader br = new BufferedReader(new FileReader(acctAccessPath))){
+				
+				String oldContent = "";
+				String oldLine = "";
+				String newLine = "";
+				String line = br.readLine();
+				while(line != null) {
+					oldContent = oldContent + line + System.lineSeparator();
+					if(line.contains(accountNum)) {
+						oldLine = line;
+						String strArr[] = line.split(":");
+						String userName = strArr[2];
+						newLine = accountNum + " : DENIED : " + userName;
+					}
+					line = br.readLine();
+				}
+				String newContent = oldContent.replaceAll(oldLine, newLine);
+				BufferedWriter accWrite = new BufferedWriter(new FileWriter(acctAccessPath));
+				accWrite.write(newContent);
+				accWrite.close();
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
+		return false;
+	}
 }

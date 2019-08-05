@@ -88,4 +88,23 @@ public class FileRead {
 		}
     	return output;
     }
+    
+    //reads all accounts in AccountAccess file
+    public static ArrayList<String> getAllAccounts() {
+    	ArrayList<String> output = new ArrayList<String>();
+    	try(BufferedReader br = new BufferedReader(new FileReader(acctAccessPath))){
+    		
+    		String line = br.readLine();
+    		while(line != null) {
+    			output.add(line);
+    			line = br.readLine();
+    		}
+    		
+    	} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return output;
+    }
 }

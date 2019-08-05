@@ -57,6 +57,7 @@ public class UserMenu {
 					//ensure correct password is associated with each user
 					if(FileEdit.confirmLogin(userName, password1)) {
 						log.info(userName + " logged in.");
+						//call findUserRole method here
 						Login.UserAccount(userName);
 					}
 					else {
