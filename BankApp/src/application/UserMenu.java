@@ -57,8 +57,13 @@ public class UserMenu {
 					//ensure correct password is associated with each user
 					if(FileEdit.confirmLogin(userName, password1)) {
 						log.info(userName + " logged in.");
-						//call findUserRole method here
-						Login.UserAccount(userName);
+						String role = FileRead.getUserRole(userName);
+						if("CUSTOMER".equals(role))
+							Login.UserAccount(userName);
+						else if("EMPLOYEE".equals(role))
+							EmployeeLogin.userAccount(userName);
+						else if(role.equals("ADMIN"))
+							AdminLogin.userAccount(userName);
 					}
 					else {
 						System.out.println("\nIncorrect password.");

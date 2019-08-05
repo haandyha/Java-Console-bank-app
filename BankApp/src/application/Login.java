@@ -34,9 +34,6 @@ public class Login {
 
 			displayAccounts(userName);
 
-			String status = FileRead.getAccountStatus(accountNum);
-
-
 			String balance = FileEdit.readBalance(accountNum);
 			// System.out.println("Current balance: $"+balance);
 
