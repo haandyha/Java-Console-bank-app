@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class AdminLogin {
 	static Scanner scan = new Scanner(System.in);
 	
+	//admin account menu
 	public static void userAccount(String userName) {
 		System.out.println("Welcome " + userName);
 		String option = "";

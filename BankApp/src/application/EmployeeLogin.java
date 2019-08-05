@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class EmployeeLogin {
 	static Scanner scan = new Scanner(System.in);
 	
+	//employee account method
 	public static void userAccount(String userName) {
 		System.out.println("\nWelcome " + userName);
 		String option = "";

@@ -71,7 +71,8 @@ public class FileEdit {
 		}
 		return false;
 	}
-
+	
+	//validates before calling adjustBalance method
 	public static boolean withdrawal(String acctFrom, String amount, String userName) {
 		try {
 			// Validate account
@@ -97,17 +98,16 @@ public class FileEdit {
 		return false;
 	}
 
+	//validates before calling adjustBalance method
 	public static boolean deposit(String acctFrom, String amount, String userName) {
 		try {
 			// Validate account
 			if (doesAccountExist(acctFrom)) {
 				double deposit = Double.parseDouble(amount);
 				int acctNum = Integer.parseInt(acctFrom);
-				System.out.println("Got all values");
 				if(deposit > 0){
 					//Validate access to this account
 					if(hasAccountAccess(acctFrom, userName) ){
-						System.out.println("I have access");
 						adjustBalance(acctNum,deposit,'d');
 						return true;
 					}
@@ -120,6 +120,7 @@ public class FileEdit {
 		return false;
 	}
 	
+	
 	public static boolean transferFunds(String acctFrom, String accountTo, String amount, String userName) {
 		//Validate both accounts
 		//Validate amount is a double
@@ -127,7 +128,9 @@ public class FileEdit {
 		
 		return false;
 	}
-
+	
+	
+	//validates account is accessible
 	public static boolean hasAccountAccess(String accountNum, String userName) {
 		String output = "error";
 		try(BufferedReader accountReader = new BufferedReader(new FileReader(acctAccessPath) );
@@ -277,6 +280,7 @@ public class FileEdit {
 		}
 	}
 
+	//creates pending account in AccountAccess file
 	public static void createAccountApplication(String userName, int newAcctNum) {
 		try(	BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath,true));
 				BufferedWriter acctAccessWrite = new BufferedWriter(new FileWriter(acctAccessPath,true) ) ){
@@ -288,6 +292,7 @@ public class FileEdit {
 		}
 	}
 
+	//when account is approved, create account in AccountBalance file
 	public static void createAccount(String acctNum) {
 		try(BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath,true) ) ){
 
@@ -323,6 +328,7 @@ public class FileEdit {
 		return false;
 	}
 
+	//sets account status to APPROVED, DENIED, or CANCELED
 	public static boolean changeAccountStatus(String accountNum, char operation) {
 		if(operation == 'a') {
 			try(BufferedReader br = new BufferedReader(new FileReader(acctAccessPath))){
@@ -331,17 +337,22 @@ public class FileEdit {
 				String oldLine = "";
 				String newLine = "";
 				String line = br.readLine();
+				//copy old content in file
 				while(line != null) {
 					oldContent = oldContent + line + System.lineSeparator();
 					if(line.contains(accountNum)) {
+						//find line to be replaced
 						oldLine = line;
 						String strArr[] = line.split(":");
 						String userName = strArr[2];
+						//create new line with updated values
 						newLine = accountNum + " : APPROVED : " + userName;
 					}
 					line = br.readLine();
 				}
+				//swaps old line with new line
 				String newContent = oldContent.replaceAll(oldLine, newLine);
+				//overwrites the file with updated value
 				BufferedWriter accWrite = new BufferedWriter(new FileWriter(acctAccessPath));
 				accWrite.write(newContent);
 				accWrite.close();
