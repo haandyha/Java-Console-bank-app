@@ -36,7 +36,6 @@ public class Login {
 
 			String status = FileRead.getAccountStatus(accountNum);
 
-
 			String balance = FileEdit.readBalance(accountNum);
 			// System.out.println("Current balance: $"+balance);
 
@@ -71,42 +70,35 @@ public class Login {
 				break;
 			case "d":
 				System.out.println("\nDeposit option selected.");
-				amount = 0;
-				System.out.println("\nEnter deposit amount: ");
-				amount = Double.parseDouble(scan.nextLine());
-				System.out.println("\nConfirm deposit amount: " + amount + " (y/n)?");
-				confirm = scan.nextLine();
-				if (confirm.equals("y")) {
-					boolean adjust = FileEdit.adjustBalance(accountNum, amount, 'd');
-					if (adjust) {
-						System.out.println(amount + " Successfully deposited.");
-						log.info(userName + " deposited $" + amount);
-					}
-					else
-						System.out.println("error.");
+				System.out.println("Enter the account you'd like to deposit to.");
+				String accountTo = scan.nextLine();
+
+				System.out.println("\nEnter the amount you'd like to deposit.");
+				String depositAmount = scan.nextLine();
+
+				if(FileEdit.deposit(accountTo, depositAmount, userName) ){
+					//success
+					System.out.println("Deposit successful!");
+				} else {
+					//failure
+					System.out.println("Please double check you've entered valid information");
 				}
 				break;
 
 			case "w":
 				System.out.println("\nWithdraw option selected.");
-				amount = 0;
+				System.out.println("Enter the account you'd like to withdraw from.");
+				String accountFrom = scan.nextLine();
+
 				System.out.println("\nEnter withdraw amount: ");
-				amount = Double.parseDouble(scan.nextLine());
-				System.out.println("\nConfirm withdraw amount: " + amount + " (y/n)?");
-				confirm = scan.nextLine();
-				if (confirm.equals("y")) {
-					if (amount > Double.parseDouble(balance)) {
-						System.out.println("Unable to process: withdraw amount exceeds current balance.");
-					}
-					else {
-						boolean adjust = FileEdit.adjustBalance(accountNum, amount, 'w');
-						if (adjust) {
-							System.out.println(amount + " Successfully withdrawn.");
-							log.info(userName + " withdrew $" + amount);
-						}
-						else
-							System.out.println("error.");
-					}
+				String withdrawAmount = scan.nextLine();
+
+				if(FileEdit.withdrawal(accountFrom, withdrawAmount, userName) ){
+					//success
+					System.out.println("Withdrawal successful!");
+				} else {
+					//failure
+					System.out.println("Please double check you've entered valid information");
 				}
 				break;
 

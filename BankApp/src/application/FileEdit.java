@@ -71,9 +71,90 @@ public class FileEdit {
 		}
 		return false;
 	}
+
+	public static boolean withdrawal(String acctFrom, String amount, String userName) {
+		try {
+			// Validate account
+			if (doesAccountExist(acctFrom)) {
+				double withdrawalAmount = Double.parseDouble(amount);
+				int acctNum = Integer.parseInt(acctFrom);
+				double acctBalance = Double.parseDouble(readBalance(acctNum) );
+				if(withdrawalAmount > 0){
+					// Validate no overdraft
+					if(withdrawalAmount <= acctBalance ){
+						//Validate access to this account
+						if(hasAccountAccess(acctFrom, userName) ){
+							adjustBalance(acctNum,withdrawalAmount,'w');
+							return true;
+						}
+					}
+				}
+			}
+		}catch (Exception e){
+			return false;
+		}
+
+		return false;
+	}
+
+	public static boolean deposit(String acctFrom, String amount, String userName) {
+		try {
+			// Validate account
+			if (doesAccountExist(acctFrom)) {
+				double deposit = Double.parseDouble(amount);
+				int acctNum = Integer.parseInt(acctFrom);
+				System.out.println("Got all values");
+				if(deposit > 0){
+					//Validate access to this account
+					if(hasAccountAccess(acctFrom, userName) ){
+						System.out.println("I have access");
+						adjustBalance(acctNum,deposit,'d');
+						return true;
+					}
+				}
+			}
+		}catch (Exception e){
+			return false;
+		}
+
+		return false;
+	}
 	
-	public static boolean transferFunds() {
+	public static boolean transferFunds(String acctFrom, String accountTo, String amount, String userName) {
+		//Validate both accounts
+		//Validate amount is a double
+		//Validate userName has access to perform this operation on both accounts
 		
+		return false;
+	}
+
+	public static boolean hasAccountAccess(String accountNum, String userName) {
+		String output = "error";
+		try(BufferedReader accountReader = new BufferedReader(new FileReader(acctAccessPath) );
+			BufferedReader userReader = new BufferedReader(new FileReader(userFilePath) )){
+			// Check if user has Admin rights
+			String line = userReader.readLine();
+			while(line != null){
+				if(line.contains(userName) && line.contains("ADMIN") ){
+					return true;
+				}
+				line = userReader.readLine();
+			}
+			userReader.close();
+			// Check if user has access to account
+			line = accountReader.readLine();
+			while(line != null) {
+				if(line.contains(accountNum) && line.contains(userName) ) {
+					return true;
+				}
+				line = accountReader.readLine();
+			}
+			accountReader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 	
@@ -140,6 +221,32 @@ public class FileEdit {
 		
 		return false;
 	}
+
+	/*
+		Checks AccountBalance file for existing accounts since this file is only for approved/active accounts
+	 */
+	public static boolean doesAccountExist(String account) {
+		try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath))){
+			// Verify account string is actually an int
+			int acc = Integer.parseInt(account);
+			System.out.println("parsed account num to int");
+
+			String line = br.readLine();
+			while(line != null) {
+				if(line.contains(account) ) {
+					System.out.println("Found account");
+					return true;
+				}
+				line = br.readLine();
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			return false;
+		}
+		return false;
+	}
 	
 	//write user to users file and create balance of $0 in AccountBalance file
 	public static void saveUser(String userName, String password, String role) {
@@ -185,7 +292,7 @@ public class FileEdit {
 	public static void createAccount(int acctNum) {
 		try(BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath,true) ) ){
 
-			accWrite.append("\n" + acctNum + " : 2500");
+			accWrite.append("\n" + acctNum + " : 2500.00");
 
 		} catch (IOException e) {
 			e.printStackTrace();
