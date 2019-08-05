@@ -66,4 +66,26 @@ public class FileRead {
         return output;
     }
 
+    //retrieve account's status
+    public static String getAccountStatus(int acctNum) {
+    	String output = "error";
+    	try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath));){
+    		
+    		String line = br.readLine();
+    		while(line != null) {
+    			if(line.contains(Integer.toString(acctNum))) {
+    				String strArr[] = line.split(":");
+    				String status = strArr[1];
+    				output = status;
+    			}
+    			line = br.readLine();
+    		}
+    		
+    	} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return output;
+    }
 }

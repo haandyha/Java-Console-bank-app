@@ -1,5 +1,5 @@
-Account Balance for bank customers 
-------------
-ACCOUNTNUMBER : BALANCE
-------------
-3023879 : 0
+Collection of all Customer data to be reviewed by Employees & Administrators
+---------------------------
+Acct# : BALANCE
+---------------------------
+3023879 : 280.0

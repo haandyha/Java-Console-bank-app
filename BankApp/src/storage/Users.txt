@@ -3,7 +3,7 @@ Active Directory for all bank users including Customers, Employees & Administrat
 USERNAME : PASSWORD : ROLE
 --------------------
 hguardad : lmao : ADMIN
-Andyha : 123 : EMPLOYEE
-Oyshi12: 456 : EMPLOYEE
+andyha : 123 : EMPLOYEE
+oyshi12: 456 : EMPLOYEE
 
 bill : qwer : null

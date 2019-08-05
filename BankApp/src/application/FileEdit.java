@@ -13,17 +13,15 @@ public class FileEdit {
 	static String acctAccessPath = "src/storage/AccountAccess.txt";
 	
 	//overwrite user's new balance
-	public static boolean adjustBalance(String userName, double amount, char operation) {
+	public static boolean adjustBalance(int accountNum, double amount, char operation) {
 		String oldContent = "";
 		String oldLine = "";
 		//read in current user balance
-		double currBal = Double.parseDouble(readBalance(userName));
+		double currBal = Double.parseDouble(readBalance(accountNum));
 		if(operation == 'd') {
-			try(BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
-				BufferedReader br = new BufferedReader(new FileReader(accBalFilePath));){
+			try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath));){
 				
 				double newBal = currBal + amount;
-				int accountNum = userName.hashCode();
 				String newLine = accountNum + " : " + newBal;
 				
 				//copy old content and find line by account number
@@ -36,7 +34,9 @@ public class FileEdit {
 					line = br.readLine();
 				}
 				String newContent = oldContent.replaceAll(oldLine, newLine);
+				BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
 				accWrite.write(newContent);
+				accWrite.close();
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -44,11 +44,9 @@ public class FileEdit {
 			return true;
 		}
 		else if(operation == 'w') {
-			try(BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
-				BufferedReader br = new BufferedReader(new FileReader(accBalFilePath));){
+			try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath));){
 				
 				double newBal = currBal - amount;
-				int accountNum = userName.hashCode();
 				String newLine = accountNum + " : " + newBal;
 				
 				//copy old content and find line by account number
@@ -61,23 +59,26 @@ public class FileEdit {
 					line = br.readLine();
 				}
 				String newContent = oldContent.replaceAll(oldLine, newLine);
+				BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
 				accWrite.write(newContent);
+				accWrite.close();
 				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			return true;
 		}
-		else if(operation == 't') {
-			
-		}
+		return false;
+	}
+	
+	public static boolean transferFunds() {
+		
 		return false;
 	}
 	
 	//read in users balance
-	public static String readBalance(String userName) {
+	public static String readBalance(int accountNum) {
 		String output = "error";
-		int accountNum = userName.hashCode();
 		try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath))){
 			String line = br.readLine();
 			while(line != null) {

@@ -36,15 +36,17 @@ public class RequirementsTests {
 	@Test
 	public void testCorrectAmountIsSavedToFileAfterDepositAction() {
 		FileEdit.saveUser("test", "word", "customer");
-		FileEdit.adjustBalance("test", 100, 'd');
-		assertEquals("100.0", FileEdit.readBalance("test"));
+		int acctNum = "test".hashCode();
+		FileEdit.adjustBalance(acctNum, 100, 'd');
+		assertEquals("100.0", FileEdit.readBalance(acctNum));
 	}
 	
 	@Test
 	public void testCorrectAmountIsSavedToFileAfterWithdrawAction() {
 		FileEdit.saveUser("test", "word", "customer");
-		FileEdit.adjustBalance("test", 100, 'd');
-		FileEdit.adjustBalance("test", 50, 'w');
-		assertEquals("50.0", FileEdit.readBalance("test"));
+		int acctNum = "test".hashCode();
+		FileEdit.adjustBalance(acctNum, 100, 'd');
+		FileEdit.adjustBalance(acctNum, 50, 'w');
+		assertEquals("50.0", FileEdit.readBalance(acctNum));
 	}
 }
