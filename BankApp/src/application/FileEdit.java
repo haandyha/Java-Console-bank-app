@@ -169,4 +169,26 @@ public class FileEdit {
 			e.printStackTrace();
 		}
 	}
+
+	public static void createAccountApplication(String userName, int newAcctNum) {
+		try(	BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath,true));
+				BufferedWriter acctAccessWrite = new BufferedWriter(new FileWriter(acctAccessPath,true) ) ){
+
+			acctAccessWrite.append("\n" + newAcctNum + " : PENDING : " + userName);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void createAccount(int acctNum) {
+		try(BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath,true) ) ){
+
+			accWrite.append("\n" + acctNum + " : 2500");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
