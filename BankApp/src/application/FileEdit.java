@@ -291,11 +291,7 @@ public class FileEdit {
 	public static void createAccount(String acctNum) {
 		try(BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath,true) ) ){
 
-<<<<<<< HEAD
 			accWrite.append("\n" + acctNum + " : 2500.00");
-=======
-			accWrite.append("\n" + acctNum + " : 2500.0");
->>>>>>> 83fb2277bd065f8cde04892fed672c891acd44e6
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -405,6 +401,31 @@ public class FileEdit {
 				}
 				String newContent = oldContent.replaceAll(oldLine, newLine);
 				BufferedWriter accWrite = new BufferedWriter(new FileWriter(acctAccessPath));
+				accWrite.write(newContent);
+				accWrite.close();
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath))){
+				
+				String oldContent = "";
+				String oldLine = "";
+				String newLine = "";
+				String line = br.readLine();
+				while(line != null) {
+					oldContent = oldContent + line + System.lineSeparator();
+					if(line.contains(accountNum)) {
+						oldLine = line;
+						newLine = "";
+					}
+					line = br.readLine();
+				}
+				String newContent = oldContent.replaceAll(oldLine, newLine);
+				BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
 				accWrite.write(newContent);
 				accWrite.close();
 				
