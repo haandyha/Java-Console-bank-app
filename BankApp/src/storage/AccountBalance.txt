@@ -1,4 +1,5 @@
-Collection of all Customer data to be reviewed by Employees & Administrators
----------------------------
-Acct# : BALANCE
----------------------------
+Account Balance for bank customers 
+------------
+ACCOUNTNUMBER : BALANCE
+------------
+3023879 : 0

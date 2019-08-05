@@ -14,13 +14,29 @@ public class FileEdit {
 	
 	//overwrite user's new balance
 	public static boolean adjustBalance(String userName, double amount, char operation) {
+		String oldContent = "";
+		String oldLine = "";
 		//read in current user balance
 		double currBal = Double.parseDouble(readBalance(userName));
 		if(operation == 'd') {
-			try(BufferedWriter bw = new BufferedWriter(new FileWriter(accBalFilePath))){
+			try(BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
+				BufferedReader br = new BufferedReader(new FileReader(accBalFilePath));){
 				
 				double newBal = currBal + amount;
-				bw.append(userName).append(" "+newBal);
+				int accountNum = userName.hashCode();
+				String newLine = accountNum + " : " + newBal;
+				
+				//copy old content and find line by account number
+				String line = br.readLine();
+				while(line != null) {
+					oldContent = oldContent + line + System.lineSeparator();
+					if(line.contains(Integer.toString(accountNum))) {
+						oldLine = line;
+					}
+					line = br.readLine();
+				}
+				String newContent = oldContent.replaceAll(oldLine, newLine);
+				accWrite.write(newContent);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -28,15 +44,32 @@ public class FileEdit {
 			return true;
 		}
 		else if(operation == 'w') {
-			try(BufferedWriter bw = new BufferedWriter(new FileWriter(accBalFilePath))){
+			try(BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
+				BufferedReader br = new BufferedReader(new FileReader(accBalFilePath));){
 				
 				double newBal = currBal - amount;
-				bw.append(userName).append(" "+newBal);
+				int accountNum = userName.hashCode();
+				String newLine = accountNum + " : " + newBal;
+				
+				//copy old content and find line by account number
+				String line = br.readLine();
+				while(line != null) {
+					oldContent = oldContent + line + System.lineSeparator();
+					if(line.contains(Integer.toString(accountNum))) {
+						oldLine = line;
+					}
+					line = br.readLine();
+				}
+				String newContent = oldContent.replaceAll(oldLine, newLine);
+				accWrite.write(newContent);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			return true;
+		}
+		else if(operation == 't') {
+			
 		}
 		return false;
 	}
@@ -44,12 +77,14 @@ public class FileEdit {
 	//read in users balance
 	public static String readBalance(String userName) {
 		String output = "error";
+		int accountNum = userName.hashCode();
 		try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath))){
-			
 			String line = br.readLine();
 			while(line != null) {
-				if(line.contains(userName)) {
-					output = line.replaceAll("[a-z\\s]", "");//remove all characters except for numbers;
+				if(line.contains(Integer.toString(accountNum))) {
+					String[] strArr = line.split(":", 2);
+					String balance = strArr[1];
+					output = balance;
 				}
 				line = br.readLine();
 			}

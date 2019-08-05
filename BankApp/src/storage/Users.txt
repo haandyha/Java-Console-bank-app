@@ -5,3 +5,5 @@ USERNAME : PASSWORD : ROLE
 hguardad : lmao : ADMIN
 Andyha : 123 : EMPLOYEE
 Oyshi12: 456 : EMPLOYEE
+
+bill : qwer : null
