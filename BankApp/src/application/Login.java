@@ -34,11 +34,6 @@ public class Login {
 
 			displayAccounts(userName);
 
-			String status = FileRead.getAccountStatus(accountNum);
-
-			String balance = FileEdit.readBalance(accountNum);
-			// System.out.println("Current balance: $"+balance);
-
 			System.out.println("\nPlease select an option:");
 			System.out.println("(a) Apply for new account.");
 			System.out.println("(j) Apply for Joint account.");

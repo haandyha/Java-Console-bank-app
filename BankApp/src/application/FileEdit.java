@@ -268,7 +268,6 @@ public class FileEdit {
 				if(acctNum<0)acctNum = acctNum*-1;
 
 				usersWrite.append("\n" + userName + " : " + password + " : " + role);
-				accWrite.append("\n" + acctNum + " : 0");
 				acctAccessWrite.append("\n" + acctNum + " : PENDING : " + userName);
 				System.out.println("\nUser successfuly saved.\n");
 			}
@@ -289,10 +288,14 @@ public class FileEdit {
 		}
 	}
 
-	public static void createAccount(int acctNum) {
+	public static void createAccount(String acctNum) {
 		try(BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath,true) ) ){
 
+<<<<<<< HEAD
 			accWrite.append("\n" + acctNum + " : 2500.00");
+=======
+			accWrite.append("\n" + acctNum + " : 2500.0");
+>>>>>>> 83fb2277bd065f8cde04892fed672c891acd44e6
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -304,7 +307,6 @@ public class FileEdit {
 	 */
 	public static boolean createJointAccountApplication(String account, String userName) {
 		try(BufferedWriter accAccessWrite = new BufferedWriter(new FileWriter(acctAccessPath,true) ) ){
-			int acct = Integer.parseInt(account);
 			// This will pull all instances of a valid account number
 			ArrayList<String> existingAccount = FileRead.getAccount(account);
 
@@ -384,6 +386,36 @@ public class FileEdit {
 			}
 			return true;
 		}
+		else if(operation == 'c') {
+			try(BufferedReader br = new BufferedReader(new FileReader(acctAccessPath))){
+				
+				String oldContent = "";
+				String oldLine = "";
+				String newLine = "";
+				String line = br.readLine();
+				while(line != null) {
+					oldContent = oldContent + line + System.lineSeparator();
+					if(line.contains(accountNum)) {
+						oldLine = line;
+						String strArr[] = line.split(":");
+						String userName = strArr[2];
+						newLine = accountNum + " : CANCELED : " + userName;
+					}
+					line = br.readLine();
+				}
+				String newContent = oldContent.replaceAll(oldLine, newLine);
+				BufferedWriter accWrite = new BufferedWriter(new FileWriter(acctAccessPath));
+				accWrite.write(newContent);
+				accWrite.close();
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
+		
 		return false;
 	}
 }

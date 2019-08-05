@@ -1,10 +1,8 @@
 package application;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -124,6 +122,47 @@ public class FileRead {
     			line = br.readLine();
     		}
     		
+    	} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return output;
+    }
+    
+    //read users status 
+    public static String getUserRole(String userName) {
+    	String output = "";
+    	try(BufferedReader br = new BufferedReader(new FileReader(userFilePath))) {
+    		String line = br.readLine();
+    		while(line != null) {
+    			if(line.contains(userName)) {
+    				String strArr[] = line.split(":");
+    				String role = strArr[2];
+    				output = role.replaceAll("\\s","");
+    			}
+    			line = br.readLine();
+    		}
+    	} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return output;
+    }
+    
+    public static String getAccountBalance(String acctNum) {
+    	String output = "";
+    	try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath))) {
+    		String line = br.readLine();
+    		while(line != null) {
+    			if(line.contains(acctNum)) {
+    				String strArr[] = line.split(":");
+    				String role = strArr[1];
+    				output = role.replaceAll("\\s","");
+    			}
+    			line = br.readLine();
+    		}
     	} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
