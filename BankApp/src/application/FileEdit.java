@@ -416,6 +416,31 @@ public class FileEdit {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath))){
+				
+				String oldContent = "";
+				String oldLine = "";
+				String newLine = "";
+				String line = br.readLine();
+				while(line != null) {
+					oldContent = oldContent + line + System.lineSeparator();
+					if(line.contains(accountNum)) {
+						oldLine = line;
+						newLine = "";
+					}
+					line = br.readLine();
+				}
+				String newContent = oldContent.replaceAll(oldLine, newLine);
+				BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
+				accWrite.write(newContent);
+				accWrite.close();
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return true;
 		}
 		
