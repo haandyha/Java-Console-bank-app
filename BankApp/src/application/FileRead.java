@@ -88,4 +88,28 @@ public class FileRead {
 		}
     	return output;
     }
+
+    /*
+        Returns the account line persisted in the AccountAccess file for verification of JointApplication
+     */
+    public static ArrayList<String> getAccount(String acctNum) {
+        ArrayList<String> output = new ArrayList<>();
+        try(BufferedReader br = new BufferedReader(new FileReader(acctAccessPath) ) ){
+
+            String line = br.readLine();
+            while(line != null) {
+                if(line.contains(acctNum)) {
+                    output.add(line);
+                }
+                line = br.readLine();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+
 }

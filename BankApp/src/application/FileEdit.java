@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FileEdit {
 	static String userFilePath = "src/storage/Users.txt";
@@ -189,6 +190,32 @@ public class FileEdit {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/*
+		Verifies that the account number given for Joing application is valid and not already pending approval
+	 */
+	public static boolean createJointAccountApplication(String account, String userName) {
+		try(BufferedWriter accAccessWrite = new BufferedWriter(new FileWriter(acctAccessPath,true) ) ){
+			int acct = Integer.parseInt(account);
+			// This will pull all instances of a valid account number
+			ArrayList<String> existingAccount = FileRead.getAccount(account);
+
+			// Verify the accountNumber provided is valid
+			if( existingAccount.size() != 0 ){
+				// Verify that this user has not already applied to this account number
+				for(int i=0; i < existingAccount.size(); i++){
+					if(existingAccount.get(i).contains(userName) ){
+						return false;
+					}
+				}
+				accAccessWrite.append("\n" + existingAccount.get(0) + "," + userName);
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		return false;
 	}
 
 }

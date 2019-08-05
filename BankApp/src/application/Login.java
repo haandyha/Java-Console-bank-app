@@ -58,6 +58,15 @@ public class Login {
 				FileEdit.createAccountApplication(userName,newAcctNum);
 				break;
 			case "j":
+				System.out.println("Please enter the account number you want access to");
+				String account = scan.nextLine();
+				//Validate account number
+				if(FileEdit.createJointAccountApplication(account, userName) ){
+					System.out.println("Application successful. You are now pending approval.");
+
+				}else{
+					System.out.println("You have already applied to this account or the number provided was invalid");
+				}
 
 				break;
 			case "d":
