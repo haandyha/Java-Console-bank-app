@@ -16,6 +16,9 @@ speed-measure-plugin.json
 
 # IDEs and editors
 BankApp/bin/
+BankApp/bin
+/BankApp/bin
+/BankApp/bin/
 bin/
 */.iml
 /.idea
