@@ -15,13 +15,6 @@ chrome-profiler-events.json
 speed-measure-plugin.json
 
 # IDEs and editors
-*/bin/
-*/bin
-*/bin/*
-*./bin/
-*./bin
-*../bin
-../bin
 BankApp/bin/
 */.iml
 /.idea
