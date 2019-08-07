@@ -21,7 +21,8 @@ speed-measure-plugin.json
 *./bin/
 *./bin
 *../bin
-/bin
+../bin
+BankApp/bin/
 */.iml
 /.idea
 .project
