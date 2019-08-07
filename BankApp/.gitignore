@@ -18,6 +18,10 @@ speed-measure-plugin.json
 */bin/
 */bin
 */bin/*
+*./bin/
+*./bin
+*../bin
+/bin
 */.iml
 /.idea
 .project
