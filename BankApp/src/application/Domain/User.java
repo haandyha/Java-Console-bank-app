@@ -1,4 +1,6 @@
-package application;
+package application.Domain;
+
+import application.Dao.FileEdit;
 
 public class User {
 	private static String userName;

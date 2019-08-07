@@ -1,4 +1,7 @@
-package application;
+package application.View;
+
+import application.Dao.FileEdit;
+import application.Dao.FileRead;
 
 import java.util.ArrayList;
 import java.util.Scanner;
