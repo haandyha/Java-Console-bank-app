@@ -20,6 +20,8 @@ BankApp/bin
 /BankApp/bin
 /BankApp/bin/
 bin/
+\bin
+\BankApp\bin
 */.iml
 /.idea
 .project
