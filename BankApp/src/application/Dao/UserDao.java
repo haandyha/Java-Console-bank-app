@@ -1,9 +1,12 @@
 package application.Dao;
 
-public class UserDao {
+import java.util.ArrayList;
 
-    public boolean confirmLogin(String username, String password){
-        return false;
-    }
+public interface UserDao {
 
+    public boolean confirmLogin(String userName, String password);
+    public String getUserRole(String userName);
+    public boolean hasAccountAccess(String userName, int accountNumber);
+    public boolean doesUserExist(String userName);
+    public void saveUser(String userName, String password, String role, ArrayList<Integer> accounts);
 }

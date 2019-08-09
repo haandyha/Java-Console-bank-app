@@ -1,26 +1,21 @@
 package application.Dao;
 
-import application.Domain.User;
+import java.util.ArrayList;
 
-public class AccountDao {
+import application.Domain.Account;
 
-    public String getBalance(String accountNumber){
-        return "0.00";
-    }
-
-    public boolean setBalance(String accountNumber){
-        return false;
-    }
-
-    public boolean deposit(String accountNumber, String amount) {
-        return false;
-    }
-
-    public boolean withdraw(String accountNumber, String amount) {
-        return false;
-    }
-
-    public boolean transfer(String accountFrom, String accountTo, String amount) {
-        return false;
-    }
+public interface AccountDao {
+    public Account getBalance(int accountNumber);
+    public boolean setBalance(int accountNumber);
+    public boolean deposit(int accountNumber, double amount);
+    public boolean withdraw(int accountNumber, double amount);
+    public boolean transfer(int accountFrom, int accountTo, double amount);
+    public boolean createAccountApplication(String userName, int newAcctNum);
+    public boolean createAccount(int accountNumber);
+    public boolean createJointAccountApplication(int account, String userName);
+    public boolean changeAccountStatus(int accountNumber, char operation);
+    public ArrayList<Integer> getAccountsByUser(String userName);
+    public void getAccountStatus(int accountNumber);
+    public Account getAccountByNumber(int accountNumber);
+    public ArrayList<Integer> getAllAccounts(); 
 }

@@ -44,11 +44,8 @@ public class UserMenu {
 					if(!password1.equals(password2))
 						System.out.println("\nPasswords do not match.");
 				}while(!password1.equals(password2));
-				
-					User.setUserName(userName);
-					User.setPassword(password1);
-					User.setRole("CUSTOMER");
-					User.store();
+					
+					new User(userName, password1, "CUSTOMER");
 					log.info(userName + " created an account.");
 				break;
 				

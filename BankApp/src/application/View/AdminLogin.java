@@ -60,7 +60,7 @@ public class AdminLogin {
 				acct = scan.nextLine();
 				System.out.println("Enter amount:");
 				amount = scan.nextLine();
-				//call deposit method here
+				FileEdit.deposit(acct, amount, userName);
 				break;
 				
 			case "w":
@@ -69,7 +69,7 @@ public class AdminLogin {
 				acct = scan.nextLine();
 				System.out.println("Enter amount:");
 				amount = scan.nextLine();
-				//call withdraw method here
+				FileEdit.withdrawal(acct, amount, userName);
 				break;
 				
 			case "t":
@@ -80,7 +80,7 @@ public class AdminLogin {
 				String to = scan.nextLine();
 				System.out.println("Enter amount:");
 				amount = scan.nextLine();
-				//call transfer method here
+				FileEdit.transferFunds(from, to, amount, userName);
 				break;
 				
 			case "a":

@@ -15,61 +15,80 @@ public class FileEdit {
 	
 	//overwrite user's new balance
 	public static boolean adjustBalance(int accountNum, double amount, char operation) {
-		String oldContent = "";
-		String oldLine = "";
 		//read in current user balance
 		double currBal = Double.parseDouble(readBalance(accountNum));
 		if(operation == 'd') {
-			try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath));){
-				
-				double newBal = currBal + amount;
-				String newLine = accountNum + " : " + newBal;
-				
-				//copy old content and find line by account number
-				String line = br.readLine();
-				while(line != null) {
-					oldContent = oldContent + line + System.lineSeparator();
-					if(line.contains(Integer.toString(accountNum))) {
-						oldLine = line;
-					}
-					line = br.readLine();
-				}
-				String newContent = oldContent.replaceAll(oldLine, newLine);
-				BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
-				accWrite.write(newContent);
-				accWrite.close();
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			double newBal = currBal + amount;
+			replaceLine(accountNum, newBal);
 			return true;
 		}
 		else if(operation == 'w') {
-			try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath));){
-				
-				double newBal = currBal - amount;
-				String newLine = accountNum + " : " + newBal;
-				
-				//copy old content and find line by account number
-				String line = br.readLine();
-				while(line != null) {
-					oldContent = oldContent + line + System.lineSeparator();
-					if(line.contains(Integer.toString(accountNum))) {
-						oldLine = line;
-					}
-					line = br.readLine();
-				}
-				String newContent = oldContent.replaceAll(oldLine, newLine);
-				BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
-				accWrite.write(newContent);
-				accWrite.close();
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			double newBal = currBal - amount;
+			replaceLine(accountNum, newBal);
 			return true;
 		}
 		return false;
+	}
+	
+	//replace text line in text file
+	public static void replaceLine(int accountNum, double newBal) {
+		String oldContent = "";
+		String oldLine = "";
+		try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath));){
+			
+			String newLine = accountNum + " : " + newBal;
+			
+			//copy old content and find line by account number
+			String line = br.readLine();
+			while(line != null) {
+				oldContent = oldContent + line + System.lineSeparator();
+				if(line.contains(Integer.toString(accountNum))) {
+					oldLine = line;
+				}
+				line = br.readLine();
+			}
+			String newContent = oldContent.replaceAll(oldLine, newLine);
+			BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
+			accWrite.write(newContent);
+			accWrite.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void replaceLine(String accountNum, String status, String path) {
+		try(BufferedReader br = new BufferedReader(new FileReader(path))){
+			
+			String oldContent = "";
+			String oldLine = "";
+			String newLine = "";
+			String line = br.readLine();
+			//copy old content in file
+			while(line != null) {
+				oldContent = oldContent + line + System.lineSeparator();
+				if(line.contains(accountNum)) {
+					//find line to be replaced
+					oldLine = line;
+					String strArr[] = line.split(":");
+					String userName = strArr[2];
+					//create new line with updated values
+					newLine = accountNum + " : " + status + " : " + userName;
+				}
+				line = br.readLine();
+			}
+			//swaps old line with new line
+			String newContent = oldContent.replaceAll(oldLine, newLine);
+			//overwrites the file with updated value
+			BufferedWriter accWrite = new BufferedWriter(new FileWriter(path));
+			accWrite.write(newContent);
+			accWrite.close();
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	//validates before calling adjustBalance method
@@ -142,7 +161,6 @@ public class FileEdit {
 	
 	//validates account is accessible
 	public static boolean hasAccountAccess(String accountNum, String userName) {
-		String output = "error";
 		try(BufferedReader accountReader = new BufferedReader(new FileReader(acctAccessPath) );
 			BufferedReader userReader = new BufferedReader(new FileReader(userFilePath) )){
 			// Check if user has Admin rights
@@ -339,120 +357,17 @@ public class FileEdit {
 	//sets account status to APPROVED, DENIED, or CANCELED
 	public static boolean changeAccountStatus(String accountNum, char operation) {
 		if(operation == 'a') {
-			try(BufferedReader br = new BufferedReader(new FileReader(acctAccessPath))){
-				
-				String oldContent = "";
-				String oldLine = "";
-				String newLine = "";
-				String line = br.readLine();
-				//copy old content in file
-				while(line != null) {
-					oldContent = oldContent + line + System.lineSeparator();
-					if(line.contains(accountNum)) {
-						//find line to be replaced
-						oldLine = line;
-						String strArr[] = line.split(":");
-						String userName = strArr[2];
-						//create new line with updated values
-						newLine = accountNum + " : APPROVED : " + userName;
-					}
-					line = br.readLine();
-				}
-				//swaps old line with new line
-				String newContent = oldContent.replaceAll(oldLine, newLine);
-				//overwrites the file with updated value
-				BufferedWriter accWrite = new BufferedWriter(new FileWriter(acctAccessPath));
-				accWrite.write(newContent);
-				accWrite.close();
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			replaceLine(accountNum, "APPROVED", acctAccessPath);
 			return true;
 		}
 		else if(operation == 'd') {
-			try(BufferedReader br = new BufferedReader(new FileReader(acctAccessPath))){
-				
-				String oldContent = "";
-				String oldLine = "";
-				String newLine = "";
-				String line = br.readLine();
-				while(line != null) {
-					oldContent = oldContent + line + System.lineSeparator();
-					if(line.contains(accountNum)) {
-						oldLine = line;
-						String strArr[] = line.split(":");
-						String userName = strArr[2];
-						newLine = accountNum + " : DENIED : " + userName;
-					}
-					line = br.readLine();
-				}
-				String newContent = oldContent.replaceAll(oldLine, newLine);
-				BufferedWriter accWrite = new BufferedWriter(new FileWriter(acctAccessPath));
-				accWrite.write(newContent);
-				accWrite.close();
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			replaceLine(accountNum, "DENIED", acctAccessPath);
 			return true;
 		}
 		else if(operation == 'c') {
-			try(BufferedReader br = new BufferedReader(new FileReader(acctAccessPath))){
-				
-				String oldContent = "";
-				String oldLine = "";
-				String newLine = "";
-				String line = br.readLine();
-				while(line != null) {
-					oldContent = oldContent + line + System.lineSeparator();
-					if(line.contains(accountNum)) {
-						oldLine = line;
-						String strArr[] = line.split(":");
-						String userName = strArr[2];
-						newLine = accountNum + " : CANCELED : " + userName;
-					}
-					line = br.readLine();
-				}
-				String newContent = oldContent.replaceAll(oldLine, newLine);
-				BufferedWriter accWrite = new BufferedWriter(new FileWriter(acctAccessPath));
-				accWrite.write(newContent);
-				accWrite.close();
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			try(BufferedReader br = new BufferedReader(new FileReader(accBalFilePath))){
-				
-				String oldContent = "";
-				String oldLine = "";
-				String newLine = "";
-				String line = br.readLine();
-				while(line != null) {
-					oldContent = oldContent + line + System.lineSeparator();
-					if(line.contains(accountNum)) {
-						oldLine = line;
-						newLine = "";
-					}
-					line = br.readLine();
-				}
-				String newContent = oldContent.replaceAll(oldLine, newLine);
-				BufferedWriter accWrite = new BufferedWriter(new FileWriter(accBalFilePath));
-				accWrite.write(newContent);
-				accWrite.close();
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			replaceLine(accountNum, "CANCELED", acctAccessPath);
+			//deletes account in AccountBalance 
+			replaceLine(accountNum, "", accBalFilePath);
 			return true;
 		}
 		

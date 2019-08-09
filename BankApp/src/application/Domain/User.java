@@ -1,40 +1,62 @@
 package application.Domain;
 
-import application.Dao.FileEdit;
+import java.util.ArrayList;
 
 public class User {
-	private static String userName;
-	private static String password;
-	private static String role;
+	private String userName;
+	private String password;
+	private String role;
+	private ArrayList<Integer> accounts;
 	
 	public User() {
 		super();
 	}
 
-	public static String getUserName() {
+	public User(String userName, String password, String role, ArrayList<Integer> accounts) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.role = role;
+		this.accounts = accounts;
+	}
+
+	public User(String userName, String password, String role) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.role = role;
+	}
+
+	public String getUserName() {
 		return userName;
 	}
-	public static void setUserName(String userName) {
-		User.userName = userName;
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	
-	public static String getRole() {
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
 		return role;
 	}
 
-	public static void setRole(String role) {
-		User.role = role;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
-	public static String getPassword() {
-		return password;
-	}
-	public static void setPassword(String password) {
-		User.password = password;
+	public ArrayList<Integer> getAccounts() {
+		return accounts;
 	}
 
-	public static void store() {
-		FileEdit.saveUser(userName, password, role);
+	public void setAccounts(ArrayList<Integer> accounts) {
+		this.accounts = accounts;
 	}
 	
 }
