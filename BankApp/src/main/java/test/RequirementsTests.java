@@ -5,7 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import application.FileEdit;
+import application.Dao.FileEdit;
 
 public class RequirementsTests {
 	
