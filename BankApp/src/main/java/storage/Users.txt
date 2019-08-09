@@ -5,5 +5,4 @@ USERNAME : PASSWORD : ROLE
 hguardad : lmao : ADMIN
 andyha : 123 : EMPLOYEE
 oyshi12: 456 : EMPLOYEE
-
-bill : qwer : null
+john : lol : CUSTOMER
