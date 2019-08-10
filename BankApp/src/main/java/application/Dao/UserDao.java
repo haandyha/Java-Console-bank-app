@@ -1,12 +1,17 @@
 package application.Dao;
 
+import application.Domain.User;
+
 import java.util.ArrayList;
 
 public interface UserDao {
 
-    public boolean confirmLogin(String userName, String password);
-    public String getUserRole(String userName);
+    /*
+        This method will act as the intial getUser for the appropriate user view
+     */
+    public User confirmLogin(String userName, String password);
     public boolean hasAccountAccess(String userName, int accountNumber);
     public boolean doesUserExist(String userName);
-    public void saveUser(String userName, String password, String role, ArrayList<Integer> accounts);
+    public boolean saveUser(User user);
+
 }

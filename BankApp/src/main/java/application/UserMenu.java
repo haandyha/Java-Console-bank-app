@@ -2,8 +2,7 @@ package application;
 
 import java.util.Scanner;
 
-import application.Dao.FileEdit;
-import application.Dao.FileRead;
+import application.Dao.UserDaoImpl;
 import application.Domain.User;
 import application.View.AdminLogin;
 import application.View.EmployeeLogin;
@@ -14,11 +13,11 @@ public class UserMenu {
 
 	static Scanner scan = new Scanner(System.in);
 	private static final Logger log = Logger.getLogger("");
-	
+
 	public static void main(String[] args) {
 		System.out.println("Welcome.");
-		//log.debug("log test");
 		String option = "";
+		User user = null;
 		//display menu until user selects to exit
 		while(!option.equals("e")) {
 			System.out.println("Please select an option:");
@@ -45,38 +44,18 @@ public class UserMenu {
 						System.out.println("\nPasswords do not match.");
 				}while(!password1.equals(password2));
 					
-					new User(userName, password1, "CUSTOMER");
-					log.info(userName + " created an account.");
+					user = new User(userName, password1, "CUSTOMER");
+					UserDaoImpl userDao = new UserDaoImpl();
+					if(userDao.saveUser(user) ){
+						log.info(userName + " created an account.");
+					} else {
+						log.error("Could not successfuly create user : " + user.getUserName() );
+					}
 				break;
 				
 			case "l":
-				System.out.println("\nLog in option selected.");
-				System.out.println("\nEnter user name: ");
-				userName = scan.nextLine().toLowerCase();
-				//check to see user exists
-				if(FileEdit.doesUserExist(userName)) {
-					System.out.println("\nEnter password: ");
-					password1 = scan.nextLine();
-					//ensure correct password is associated with each user
-					if(FileEdit.confirmLogin(userName, password1)) {
-						log.info(userName + " logged in.");
-						String role = FileRead.getUserRole(userName);
-						if("CUSTOMER".equals(role))
-							Login.UserAccount(userName);
-						else if("EMPLOYEE".equals(role))
-							EmployeeLogin.userAccount(userName);
-						else if(role.equals("ADMIN"))
-							AdminLogin.userAccount(userName);
-					}
-					else {
-						System.out.println("\nIncorrect password.");
-						log.info("Failed login attempt.");
-					}
-				}
-				else {
-					System.out.println("\nUser does not exist.");
-					log.info("Invalid user name entered.");
-				}
+				// Confirm login
+				// Send the confirmed user to the appropriate view menu
 				break;
 				
 			case "e":

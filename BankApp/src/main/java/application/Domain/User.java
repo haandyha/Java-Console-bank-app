@@ -1,12 +1,12 @@
 package application.Domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable {
 	private String userName;
 	private String password;
 	private String role;
-	private ArrayList<Integer> accounts;
 	
 	public User() {
 		super();
@@ -17,7 +17,6 @@ public class User {
 		this.userName = userName;
 		this.password = password;
 		this.role = role;
-		this.accounts = accounts;
 	}
 
 	public User(String userName, String password, String role) {
@@ -49,14 +48,6 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
-	}
-
-	public ArrayList<Integer> getAccounts() {
-		return accounts;
-	}
-
-	public void setAccounts(ArrayList<Integer> accounts) {
-		this.accounts = accounts;
 	}
 	
 }

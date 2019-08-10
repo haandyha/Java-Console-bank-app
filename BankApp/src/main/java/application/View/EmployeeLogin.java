@@ -1,8 +1,5 @@
 package application.View;
 
-import application.Dao.FileEdit;
-import application.Dao.FileRead;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,37 +22,21 @@ public class EmployeeLogin {
 			System.out.println("(l) Log out.");
 			option = scan.nextLine().toLowerCase();
 			switch(option) {
-			case "v": 
-				System.out.println("All accounts:");
-				ArrayList<String> accounts = FileRead.getAllAccounts();
-				for(String a: accounts)
-					System.out.println(a);
+			case "v":
+				System.out.println("(v) View all accounts.");
 				break;
 			
 			case "b":
-				System.out.println("Account balance menu:");
-				System.out.println("enter account number:");
-				input = scan.nextLine();
-				System.out.println(FileRead.getAccountBalance(input));
+				System.out.println("(b) View account balance.");
 				break;
 				
 			case "a":
-				System.out.println("Account approval menu:");
-				System.out.print("Enter account number: ");
-				input = scan.nextLine();
-				success = FileEdit.changeAccountStatus(input, 'a');
-				FileEdit.createAccount(input);
-				if(success)
-					System.out.println("Account approved.");
+				System.out.println("(a) Approve account application.");
 				break;
 				
 			case "d":
-				System.out.println("Account denial menu:");
-				System.out.print("Enter account number: ");
-				input = scan.nextLine();
-				success = FileEdit.changeAccountStatus(input, 'd');
-				if(success)
-					System.out.println("Account Denied.");
+				System.out.println("(d) Deny account application.");
+
 				break;
 				
 			case "l":

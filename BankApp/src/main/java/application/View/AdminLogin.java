@@ -1,17 +1,21 @@
 package application.View;
 
-import application.Dao.FileEdit;
-import application.Dao.FileRead;
+import application.Dao.AccountDaoImpl;
+import application.Dao.UserDaoImpl;
+import application.Domain.User;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdminLogin {
 	static Scanner scan = new Scanner(System.in);
-	
+	private static final Logger log = Logger.getLogger("");
+	private AccountDaoImpl accountDao = new AccountDaoImpl();
+	private UserDaoImpl userDao = new UserDaoImpl();
 	//admin account menu
-	public static void userAccount(String userName) {
-		System.out.println("Welcome " + userName);
+	public static void adminMenu(User user) {
+		System.out.println("Welcome " + user.getUserName() );
 		String option = "";
 		String input = "";
 		String acct = "";
@@ -31,75 +35,40 @@ public class AdminLogin {
 			System.out.println("(l) Log out.");
 			option = scan.nextLine().toLowerCase();
 			switch(option) {
-			case "v": 
-				System.out.println("All accounts:");
-				ArrayList<String> accounts = FileRead.getAllAccounts();
-				for(String a: accounts)
-					System.out.println(a);
+			case "v":
+				System.out.println("(v) View all accounts.");
 				break;
 			
 			case "b":
-				System.out.println("Account balance menu:");
-				System.out.println("Enter account number:");
-				input = scan.nextLine();
-				System.out.println(FileRead.getAccountBalance(input));
+				System.out.println("(b) view account balance.");
 				break;
 				
 			case "c":
-				System.out.println("Cancel account menu:");
-				System.out.println("Enter account number:");
-				input = scan.nextLine();
-				success = FileEdit.changeAccountStatus(input, 'c');
-				if(success)
-					System.out.println("Account canceled.");
+				System.out.println("(c) Cancel account.");
+
 				break;
 				
 			case "e":
-				System.out.println("Deposit menu:");
-				System.out.println("Enter account number to deposit into:");
-				acct = scan.nextLine();
-				System.out.println("Enter amount:");
-				amount = scan.nextLine();
-				FileEdit.deposit(acct, amount, userName);
+				System.out.println("(e) Deposit.");
 				break;
 				
 			case "w":
-				System.out.println("Withdraw menu:");
-				System.out.println("Enter account number to withdraw from:");
-				acct = scan.nextLine();
-				System.out.println("Enter amount:");
-				amount = scan.nextLine();
-				FileEdit.withdrawal(acct, amount, userName);
+				System.out.println("(w) Withdraw.");
+
 				break;
 				
 			case "t":
-				System.out.println("Transfer menu:");
-				System.out.println("Enter account number to withdraw from:");
-				String from = scan.nextLine();
-				System.out.println("Enter account number to deposit into:");
-				String to = scan.nextLine();
-				System.out.println("Enter amount:");
-				amount = scan.nextLine();
-				FileEdit.transferFunds(from, to, amount, userName);
+				System.out.println("(t) transfer.");
 				break;
 				
 			case "a":
-				System.out.println("Account approval menu:");
-				System.out.print("Enter account number: ");
-				input = scan.nextLine();
-				success = FileEdit.changeAccountStatus(input, 'a');
-				FileEdit.createAccount(input);
-				if(success)
-					System.out.println("Account approved.");
+				System.out.println("(a) Approve pending account.");
+
 				break;
 				
 			case "d":
-				System.out.println("Account denial menu:");
-				System.out.print("Enter account number: ");
-				input = scan.nextLine();
-				success = FileEdit.changeAccountStatus(input, 'd');
-				if(success)
-					System.out.println("Account Denied.");
+				System.out.println("(d) Deny pending account.");
+
 				break;
 				
 			case "l":
